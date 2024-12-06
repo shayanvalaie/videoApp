@@ -29,7 +29,7 @@ function App() {
     }
   };
 
-  const createVideo = async () => {
+  const createVideo = async (): Promise<void> => {
     if (!imageFile || !soundFile) {
       alert("Please upload both an image and a sound file!");
       return;
@@ -46,21 +46,21 @@ function App() {
 
       // Run FFmpeg command to generate a video
       await ffmpeg.exec([
-        "-framerate",
+        "-framerate", //Specifies Framerate
         "1/10",
-        "-i",
+        "-i", //Specifies image file image.png
         "image.png",
         "-i",
-        "sound.mp3",
+        "sound.mp3", //Specifies sound file sound.mp3
         "-c:v",
-        "libx264",
-        "-t",
+        "libx264", //Sets the video codec to libx264
+        "-t", //Sets duration of the video
         "10",
-        "-pix_fmt",
+        "-pix_fmt", // Sets the pixel format to yuv420p
         "yuv420p",
-        "-vf",
+        "-vf", // Applies video filter to scale the image to a resolution of 1920x1080
         "scale=1920:1080",
-        "output.mp4",
+        "output.mp4", //Output file name
       ]);
 
       const data = await ffmpeg.readFile("output.mp4");
