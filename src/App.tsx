@@ -4,25 +4,29 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 import "./App.css";
 
 function App() {
-  const [videoSrc, setVideoSrc] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
-  const [soundFile, setSoundFile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [videoSrc, setVideoSrc] = useState<string>("");
+  const [imageFile, setImageFile] = useState<object>({});
+  const [soundFile, setSoundFile] = useState<object>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const ffmpeg = new FFmpeg();
 
-  const fetchFile = async (file) => {
+  const fetchFile = async (file: any): Promise<Uint8Array> => {
     return new Uint8Array(await file.arrayBuffer());
   };
 
-  const handleChangeImage = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setImageFile(file);
+    }
   };
 
-  const handleChangeSound = (e) => {
-    const file = e.target.files[0];
-    setSoundFile(file);
+  const handleChangeSound = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setSoundFile(file);
+    }
   };
 
   const createVideo = async () => {
